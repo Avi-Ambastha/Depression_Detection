@@ -15,7 +15,8 @@ class custom_preprocessing:
         self.stop_words=set(stopwords.words('english'))
         self.lemmatizer=WordNetLemmatizer()
     def clean_text(self,text):
-        return re.sub(r"[^a-zA-Z\s]","",text).lower()
+        clean=re.sub(r'\b\w*(\w)\1{2,}\w*\b', '',text)
+        return re.sub(r"[^a-zA-Z\s]","",clean).lower()
     def tokenize(self,text):
         return word_tokenize(text)
     def remove_stop_words(self,text):
