@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 import nltk
+from sklearn.feature_extraction.text import TfidfVectorizer
 class custom_preprocessing:
     def __init__(self):
         self.pos_map={
@@ -14,6 +15,7 @@ class custom_preprocessing:
         }
         self.stop_words=set(stopwords.words('english'))
         self.lemmatizer=WordNetLemmatizer()
+        self.vectorizer=TfidfVectorizer()
     def clean_text(self,text):
         clean=re.sub(r'\b\w*(\w)\1{2,}\w*\b', '',text)
         return re.sub(r"[^a-zA-Z\s]","",clean).lower()
@@ -29,4 +31,9 @@ class custom_preprocessing:
         tokens=self.tokenize(cleantext)
         stop_words_removed=self.remove_stop_words(tokens)
         lemmatized_tokens=self.lemmatize(stop_words_removed)
-        return lemmatized_tokens
+        return " ".join(lemmatized_tokens)
+    def vectorize(self,series):
+        return self.vectorizer.fit_transform(series)
+    def transform(self,array):
+        return self.vectorizer.transform(array)
+        
